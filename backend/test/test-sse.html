@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Telemetry SSE Test</title>
+</head>
+<body>
+  <h1>Telemetry Stream Test</h1>
+  <pre id="output"></pre>
+
+  <script>
+    const output = document.getElementById("output");
+    const deviceId = "01P00A3B2300627";
+
+    const es = new EventSource(`http://localhost:5017/api/printers/${deviceId}/telemetry/stream`);
+
+    es.addEventListener("telemetry", (event) => {
+      const point = JSON.parse(event.data);
+      output.textContent += JSON.stringify(point, null, 2) + "\n\n";
+    });
+
+    es.onerror = (err) => {
+      output.textContent += "SSE error or stream closed.\n";
+      console.error(err);
+    };
+  </script>
+</body>
+</html>

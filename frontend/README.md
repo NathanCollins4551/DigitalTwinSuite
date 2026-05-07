@@ -1,0 +1,136 @@
+# MakerSpace Digital Twin — Frontend
+
+A high-performance, security-hardened web portal for real-time 3D visualization, personnel tracking, and AI-driven industrial management. This project serves as a direct-access interface for the MakerSpace Digital Twin ecosystem.
+
+##  Tech Stack
+
+### Core Technologies
+*   **Runtime:** Node.js (>=20.0.0)
+*   **Framework:** Express.js (4.19.2)
+*   **3D Engine:** Unity WebGL (served via specialized Brotli-compressed stream)
+*   **Visualization:** HTML5 Canvas API (Personnel Visualizer)
+*   **Styling:** Modern Vanilla CSS (Modular)
+
+---
+
+## Architecture
+
+### Direct Access
+The system is configured for direct access to the dashboard without a login requirement. This is intended for dedicated monitoring stations and local testing environments.
+
+### Cross-Origin Isolation
+To support `SharedArrayBuffer` (required by modern Unity builds), the server enforces strict COOP/COEP/CORP headers:
+*   `Cross-Origin-Embedder-Policy: require-corp`
+*   `Cross-Origin-Opener-Policy: same-origin`
+*   `Cross-Origin-Resource-Policy: cross-origin`
+
+---
+
+##  Dashboard: Technical Overview
+
+The dashboard is a modular Single Page Application (SPA) architecture designed for low-latency telemetry visualization.
+
+### 1. Digital Twin Visualization (Unity WebGL)
+*   **Streaming:** Utilizes an authenticated iframe to load the Unity build.
+*   **Compression:** Server-side support for `.unityweb` files with `Content-Encoding: br` (Brotli) and correct MIME types for WASM execution.
+
+### 2. Personnel Tracking & Zone Monitoring
+*   **Data Resolution:** Implements a "Majority-Vote" polling algorithm. Every 6 seconds, the system samples 3 data points from the CV API to filter noise and ensure consistent personnel counts.
+*   **Hybrid Modes:**
+    *   **Live Mode:** Proxies an MJPEG video stream through the Express server to bypass CORS and Mixed-Content restrictions.
+    *   **Simulation Mode:** Uses an incremental state-machine to simulate realistic personnel movement between zones.
+*   **Canvas Rendering:** Real-time rendering of subject markers on top of the MakerSpace floor plan.
+
+### 3. AI Assistant (Convai Integration)
+*   **Stateful Chat:** Integrates with an external LLM agent via authenticated REST calls.
+*   **Telemetry Transparency:** Features a "Source Data" inspector allowing operators to view the raw JSON telemetry used by the AI to generate responses.
+
+### 4. Inventory Management Calculators
+A suite of technical inventory tools implementing standard industrial engineering formulas:
+*   **EOQ:** Economic Order Quantity (Square root of demand/holding ratio)
+*   **ROP:** Reorder Point (Daily usage * Lead time + Safety Stock)
+*   **TIC:** Total Inventory Cost (Ordering cost + Carrying cost)
+
+---
+
+##  Updating the Unity WebGL Build
+
+When replacing the Unity WebGL build, follow these steps to ensure the security headers, Service Worker, and Convai integration continue to function.
+
+### 1. Preparation & Cleanup
+Delete the following existing files/folders in `public/unity/`:
+*   `Build/` (Contains the core Unity logic and data)
+*   `TemplateData/` (Contains icons, styles, and loaders)
+*   `index.html` (The entry point)
+*   `manifest.webmanifest`
+
+### 2. Deployment
+Copy the new build files from Unity into `public/unity/`. Ensure the structure remains:
+*   `public/unity/Build/`
+*   `public/unity/TemplateData/`
+*   `public/unity/index.html`
+*   `public/unity/manifest.webmanifest`
+
+### 3. Required Modifications
+The following changes **must** be applied to the new files for the build to work within this environment:
+
+#### A. index.html
+*   **Convai SDK:** Add `<script src="TemplateData/ConvaiWebGLSDK.js"></script>` to the `<head>`.
+*   **Service Worker:** Replace the default registration script with the "robust" version that includes a timestamp to force updates:
+    ```javascript
+    navigator.serviceWorker.register("ServiceWorker.js?v=" + Date.now())
+      .then(reg => { reg.update(); });
+    ```
+
+#### B. ServiceWorker.js
+If the build provides a default `ServiceWorker.js`, replace it with the project's custom version. Our version is critical because it:
+1.  Intercepts all asset requests.
+2.  Manually injects `Cross-Origin-Embedder-Policy: require-corp` and `Cross-Origin-Opener-Policy: same-origin` headers into cached responses.
+3.  Without these, the build will fail to load `SharedArrayBuffer` and the application will crash.
+
+#### C. Server Middleware
+Ensure the files in the `Build/` directory match the naming convention in `src/middleware/unity.js`. By default, this project expects:
+*   `Temp.data.unityweb`
+*   `Temp.framework.js.unityweb`
+*   `Temp.wasm.unityweb`
+*   `Temp.loader.js`
+
+If Unity generates different filenames (e.g., `Build.data.unityweb`), you must update the `setHeaders` logic in `src/middleware/unity.js`.
+
+---
+
+##  Project Structure
+
+```text
+├── src/
+│   ├── server.js           # Entry point & middleware orchestration
+│   ├── routes/             # Modular route handlers (Auth, API, Pages)
+│   ├── middleware/         # Security, Auth, and Unity-specific logic
+│   └── services/           # Backend API communication layer
+├── public/
+│   ├── dashboard.html      # Structural HTML
+│   ├── css/                # Externalized stylesheets
+│   └── js/dashboard/       # Modular feature logic (AI, Tracking, Prefs)
+└── vercel.json             # Deployment configuration
+```
+
+##  Getting Started
+
+1.  **Environment Setup:** Create a `.env` file based on `.env.example`.
+    ```bash
+    PORT=3000
+    BACKEND_URL=https://localhost:5017
+    JWT_SECRET=your-secure-secret
+    ```
+2.  **Installation:**
+    ```bash
+    npm install
+    ```
+3.  **Development:**
+    ```bash
+    npm run dev
+    ```
+4.  **Production:**
+    ```bash
+    npm start
+    ```

@@ -1,0 +1,133 @@
+services:
+  # Infrastructure
+  db:
+    image: postgres:16
+    container_name: digital-twin-db
+    restart: always
+    environment:
+      POSTGRES_DB: digital_twin_local
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: digital-twin-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: digital-twin-influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password123
+      - DOCKER_INFLUXDB_INIT_ORG=myorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=twin_bucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: digital-twin-rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=twin
+      - RABBITMQ_DEFAULT_PASS=twinrabbitpass
+
+  # Core Applications
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: digital-twin-backend
+    restart: on-failure
+    ports:
+      - "5017:5017"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Postgres=Host=db;Port=5432;Database=digital_twin_local;Username=postgres;Password=postgres
+      - Redis__ConnectionString=redis:6379
+      - Redis__Enabled=true
+      - InfluxDb__Enabled=true
+      - InfluxDb__Url=http://influxdb:8086
+      - InfluxDb__Token=my-super-secret-auth-token
+      - InfluxDb__Org=myorg
+      - InfluxDb__Bucket=twin_bucket
+      - Workers__EnablePrinterSimulationManagerWorker=true
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+      - RabbitMq__Username=twin
+      - RabbitMq__Password=twinrabbitpass
+    depends_on:
+      - db
+      - redis
+      - influxdb
+      - rabbitmq
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: digital-twin-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://backend:5017
+      - CV_PERSONNEL_URL=http://cv-personnel:9002/video_feed
+    depends_on:
+      - backend
+
+  cv-inventory:
+    build:
+      context: ./CV-Inventory-Tracking
+      dockerfile: Dockerfile
+    container_name: cv-inventory
+    ports:
+      - "9001:9001"
+    environment:
+      - VIDEO_SOURCE=http://host.docker.internal:8081/video_feed
+      - BACKEND_URL=http://backend:5017
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=twin
+      - RABBITMQ_PASS=twinrabbitpass
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - backend
+
+  cv-personnel:
+    build:
+      context: ./CV-Personnel-Tracking
+      dockerfile: Dockerfile
+    container_name: cv-personnel
+    ports:
+      - "9002:9002"
+    environment:
+      - VIDEO_SOURCE=http://host.docker.internal:8082/video_feed
+      - BACKEND_URL=http://backend:5017
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=twin
+      - RABBITMQ_PASS=twinrabbitpass
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  influxdb_data:

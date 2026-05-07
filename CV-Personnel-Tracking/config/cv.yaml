@@ -1,0 +1,48 @@
+camera:
+  index: 0              # MacBook camera (0)
+  width: 1280
+  height: 720
+  fps: 30
+
+yolo:
+  model: "yolov8n.pt"   # lightweight, good for CPU
+  conf: 0.2
+  iou: 0.45
+  device: "cpu"         # "cpu" or "0" for GPU
+
+detect_classes:
+  - "person"
+
+logic:
+  process_every_n_frames: 3
+  min_stable_frames: 8
+  # publish_events: true
+  publish_events: false
+
+qr:
+  enabled: true
+  decode_every_n_frames: 2
+  roi_pad_px: 14
+  draw_overlay: true
+
+# runtime:
+#   show_window: true
+#   print_events: true
+#   save_video: false
+#   save_debug_frames: false
+
+backend:
+  base_url: "http://localhost:8000"
+  cv_event_path: "/api/events/cv"
+  timeout_seconds: 2
+
+warning:
+  no_enter_zones:
+    - "Zone_BottomRight"
+  sound_enabled: true
+  sound_cooldown_seconds: 3      # minimum seconds between beeps
+
+unity:
+  enabled: true
+  host: "127.0.0.1"   # change to Unity machine IP if running on a different machine
+  port: 5005

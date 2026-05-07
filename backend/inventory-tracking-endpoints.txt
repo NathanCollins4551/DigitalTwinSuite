@@ -1,0 +1,55 @@
+curl http://localhost:5017/api/inventory/zones
+curl "http://localhost:5017/api/inventory/zones?cameraId=cam_1"
+
+curl -N http://localhost:5017/api/inventory/zones/stream
+
+
+curl "http://localhost:5017/api/inventory/spools?materialType=PETG&colorName=red"
+
+GET /api/printers/{deviceId}/loaded-spools
+GET /api/printers/{deviceId}/replacement-suggestions
+GET /api/printers/{deviceId}/replacement-suggestions?lowThresholdPercent=20
+
+
+curl -X PUT "http://localhost:5017/api/printers/01P00A3B2300627/loaded-spools" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "loadedSpools": [
+      {
+        "slotIndex": 0,
+        "spoolCode": "FIL-PETG-RED",
+        "materialType": "PETG",
+        "colorName": "red",
+        "colorHex": "#FF0000",
+        "remainingPercent": 92,
+        "remainingGrams": 920
+      },
+      {
+        "slotIndex": 1,
+        "spoolCode": "FIL-PETG-BLUE",
+        "materialType": "PETG",
+        "colorName": "blue",
+        "colorHex": "#0000FF",
+        "remainingPercent": 48,
+        "remainingGrams": 480
+      },
+      {
+        "slotIndex": 2,
+        "spoolCode": "FIL-PETG-BLACK",
+        "materialType": "PETG",
+        "colorName": "black",
+        "colorHex": "#000000",
+        "remainingPercent": 11,
+        "remainingGrams": 110
+      },
+      {
+        "slotIndex": 3,
+        "spoolCode": "FIL-PETG-GREEN",
+        "materialType": "PETG",
+        "colorName": "green",
+        "colorHex": "#00FF00",
+        "remainingPercent": 67,
+        "remainingGrams": 670
+      }
+    ]
+  }'

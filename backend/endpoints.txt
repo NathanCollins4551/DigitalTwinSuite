@@ -1,0 +1,115 @@
+Fleet / printer-focused
+curl http://localhost:5017/api/printers
+curl http://localhost:5017/api/printers/01P00A3B2300627
+curl "http://localhost:5017/api/printers/by-name?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/firmware
+curl "http://localhost:5017/api/printers/by-name/firmware?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/ams-units
+curl "http://localhost:5017/api/printers/by-name/ams-units?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/tasks
+curl "http://localhost:5017/api/printers/by-name/tasks?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/messages
+curl "http://localhost:5017/api/printers/by-name/messages?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/timeline
+curl "http://localhost:5017/api/printers/by-name/timeline?name=A1-P1S"
+curl http://localhost:5017/api/printers/01P00A3B2300627/loaded-spools
+curl "http://localhost:5017/api/printers/by-name/loaded-spools?name=A1-P1S"
+curl "http://localhost:5017/api/printers/01P00A3B2300627/replacement-suggestions?lowThresholdPercent=15"
+curl "http://localhost:5017/api/printers/by-name/replacement-suggestions?name=A1-P1S&lowThresholdPercent=15"
+curl -X PUT http://localhost:5017/api/printers/01P00A3B2300627/loaded-spools \
+  -H "Content-Type: application/json" \
+  -d '{"loadedSpools":[]}'
+curl -X PUT "http://localhost:5017/api/printers/by-name/loaded-spools?name=A1-P1S" \
+  -H "Content-Type: application/json" \
+  -d '{"loadedSpools":[]}'
+
+
+
+Table-style activity routes
+curl http://localhost:5017/api/tasks
+curl http://localhost:5017/api/tasks/123456
+curl http://localhost:5017/api/tasks/by-alias/PT-B1-P1S-19D127BA65B
+curl http://localhost:5017/api/messages
+curl http://localhost:5017/api/messages/123456
+curl http://localhost:5017/api/task-ams-details
+curl http://localhost:5017/api/task-ams-details/by-task/123456
+curl http://localhost:5017/api/task-ams-details/by-task-alias/PT-B1-P1S-19D127BA65B
+
+
+curl -X POST http://localhost:5017/api/printers/01P00A3C1900861/simulate/start \
+  -H "Content-Type: application/json" \
+  -d '{
+    "designTitle": "Hydraulic Valve Cap",
+    "simulatedDurationSeconds": 180
+  }'
+curl -X POST "http://localhost:5017/api/printers/by-name/simulate/start?name=B8-P1S" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "designTitle": "Hydraulic Valve Cap",
+    "simulatedDurationSeconds": 180
+  }'
+
+curl -X POST http://localhost:5017/api/printers/01P00A3C1900861/simulate/stop
+curl -X POST "http://localhost:5017/api/printers/by-name/simulate/stop?name=B8-P1S"
+
+GET /api/printers/running
+
+
+curl "http://localhost:5017/api/printers/01P00A3B2300627/telemetry?minutes=30"
+curl "http://localhost:5017/api/printers/by-name/telemetry?name=A1-P1S&minutes=30"
+
+<<<<<<< Client Streaming Real-time data >>>>>>>
+const es = new EventSource("/api/printers/01P00A3B2300627/telemetry/stream");
+const esByName = new EventSource("/api/printers/by-name/telemetry/stream?name=A1-P1S");
+
+es.addEventListener("telemetry", (event) => {
+  const point = JSON.parse(event.data);
+  console.log("telemetry", point);
+});
+###################################################################
+OR http://localhost:5017/api/printers/01P00A3B2300627/telemetry/stream
+OR curl -N http://localhost:5017/api/printers/01P00A3C1900861/telemetry/stream
+OR "http://localhost:5017/api/printers/by-name/telemetry/stream?name=A1-P1S"
+
+
+GET /api/tasks/{externalTaskId}/summary
+GET /api/tasks/by-alias/{taskAlias}/summary
+curl http://localhost:5017/api/tasks/1774131586651/summary
+curl http://localhost:5017/api/tasks/by-alias/PT-B1-P1S-19D127BA65B/summary
+
+
+curl -X POST http://localhost:5017/api/scheduled-print-jobs \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileName": "gear_mount_v2.3mf",
+    "priority": 8,
+    "allowAnyPrinter": true
+  }'
+
+curl -X POST http://localhost:5017/api/scheduled-print-jobs/run-dispatch-cycle
+curl http://localhost:5017/api/scheduled-print-jobs
+
+curl -X POST http://localhost:5017/api/scheduled-print-jobs/<job-guid>/priority \
+  -H "Content-Type: application/json" \
+  -d '{
+    "priority": 20
+  }'
+
+curl http://localhost:5017/api/scheduled-print-jobs/queue-preview
+curl -X POST http://localhost:5017/api/scheduled-print-jobs/reconcile
+
+curl -X POST http://localhost:5017/api/scheduled-print-jobs/scheduler-control \
+  -H "Content-Type: application/json" \
+  -d '{
+    "isPaused": true,
+    "pauseReason": "Manual maintenance pause"
+  }'
+
+curl -X POST http://localhost:5017/api/scheduled-print-jobs/scheduler-control \
+  -H "Content-Type: application/json" \
+  -d '{
+    "isPaused": false,
+    "pauseReason": null
+  }'
+
+curl http://localhost:5017/api/scheduled-print-jobs/scheduler-control

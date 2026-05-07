@@ -1,0 +1,67 @@
+camera:
+  camera_id: "cam_1"
+  index: 0              # MacBook camera (0)
+  width: 1280
+  height: 720
+  fps: 30
+  focus: 35             # tune this (0–255) if QR codes are blurry at your scanning distance
+
+yolo:
+  model: "weights/spool_dector_v14/best.pt"
+  conf: 0.20
+  iou: 0.45
+  device: "cpu"         # "cpu" or "0" for GPU
+
+# For testing with books/pens:
+# COCO has "book" but not "pen". We'll use "book" + "cell phone" as a small-object stand-in.
+detect_classes:
+  - filament_spool
+
+# If you prefer: detect everything (more CPU cost)
+# detect_classes: []
+
+logic:
+  process_every_n_frames: 2
+  min_stable_frames: 5          # debounce: require stable change
+  min_unknown_frames: 6
+  # publish_events: true
+  publish_events: false
+
+qr:
+  enabled: true
+  decode_every_n_frames: 2
+  roi_pad_px: 14
+  draw_overlay: true
+  assign_max_px: 400   # max px from QR center to spool bbox center for a match
+  persist_frames: 30   # frames to keep QR label after QR leaves frame (~1s at 30fps)
+
+# runtime:
+#   show_window: true
+#   print_events: true
+#   save_video: false
+#   save_debug_frames: false
+
+# backend:
+#   base_url: "http://localhost:8000"
+#   cv_event_path: "/api/events/cv"
+#   timeout_seconds: 2
+
+rabbitmq:
+  enabled: true
+  host: "localhost"
+  port: 5672
+  username: "twin"
+  password: "twinrabbitpass"
+  vhost: "/"
+  exchange: "cv.events"
+
+anomaly:
+  enabled: true
+  model: "yolov8n.pt" # COCO
+  conf: 0.25
+  iou: 0.45
+  device: "cpu"
+  every_n_frames: 10  # run less frequently
+  sticky_frames: 3    # keep anomaly count for N extra detection cycles after COCO misses (~1s)
+  ignore_labels:
+    - "person" # ignore humans

@@ -1,0 +1,194 @@
+LATEST ENDPOINTS WITH OUTPUTS - PHU
+
+This file compares:
+- printer routes fixed yesterday
+- task alias routes fixed today
+
+Format:
+- old route first
+- new route immediately after it
+- each new route includes its own explicit output block
+
+Notes:
+- Where the original docs did not include a fixed JSON sample, that is stated clearly for both routes.
+- Sample host uses `http://localhost:5017`.
+
+==================================================
+1. PRINTER ROUTES FIXED YESTERDAY
+==================================================
+
+1.1 OLD - Printer Detail by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627
+OUTPUT
+{"deviceId":"01P00A3B2300627","name":"A1-P1S","isOnline":true,"printStatus":"RUNNING","modelName":"C12","productName":"P1S","structure":"CoreXY","nozzleDiameterMm":0.40,"operationalState":"RUNNING","isRunning":true,"isSimulationControlled":false,"firmware":{"currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":true,"releaseStatus":"release","description":"# Version [IP_REDACTED]\n## New Features:\n* Added support for Traditional Chinese.\n* Added an on/off toggle for the rotating spool during AMS 2 Pro/AMS HT drying.\n* Added an “EXT” external spool indicator to the loading and unloading interface.\n\n## Feature Optimizations: \n* Security updates.\n* Fixed an occasional AMS communication issue.\n* Fixed an issue where print jobs could be sent successfully in LAN mode, but the printer would not respond.\n* Fixed an issue where one AMS HT unit could occasionally fail to dry when multiple AMS HT units were connected.\n* Fixed an issue where the AMS motor would continue running after filament purging at the end of a spool.\n* Fixed an issue where the material setting would incorrectly switch to ASA after enabling PLA drying.\n* Fixed an issue where stop commands initiated from Bambu Handy during filament loading or unloading would not take effect.\n* Fixed an issue where retraction was skipped before filament cutting when using Generic PETG profiles.\n* It is recommended to update the AMS to version [IP_REDACTED], which resolves the following issues:\n   - Fixed the issue where the pre-loading action would occasionally keep running continuously.\n   - Fixed the issue where configuring settings or reset filament information would occasionally fail.\n   - Fixed the issue where the red light would occasionally fail to flash after resetting AMS.","downloadUrl":"[URL_REDACTED]"},"amsUnits":[{"amsIndex":0,"amsDeviceId":"00600A411506566","currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":false,"releaseStatus":"testing","humidityLevel":null,"temperatureCelsius":null}],"latestTask":{"externalTaskId":818241069,"taskAlias":"PT-A1-P1S-30C55E2D","designTitle":"","startTimeUtc":"2026-03-18T14:28:24+00:00","endTimeUtc":"2026-03-18T14:33:12+00:00","failedType":0},"latestMessage":{"externalMessageId":1483147503,"externalTaskId":818241069,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot.","createTimeUtc":"2026-03-18T17:23:15+00:00"}}
+
+1.2 NEW - Printer Detail by DeviceName
+curl "http://localhost:5017/api/printers/by-name?name=A1-P1S"
+OUTPUT
+{"deviceId":"01P00A3B2300627","name":"A1-P1S","isOnline":true,"printStatus":"RUNNING","modelName":"C12","productName":"P1S","structure":"CoreXY","nozzleDiameterMm":0.40,"operationalState":"RUNNING","isRunning":true,"isSimulationControlled":false,"firmware":{"currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":true,"releaseStatus":"release","description":"# Version [IP_REDACTED]\n## New Features:\n* Added support for Traditional Chinese.\n* Added an on/off toggle for the rotating spool during AMS 2 Pro/AMS HT drying.\n* Added an “EXT” external spool indicator to the loading and unloading interface.\n\n## Feature Optimizations: \n* Security updates.\n* Fixed an occasional AMS communication issue.\n* Fixed an issue where print jobs could be sent successfully in LAN mode, but the printer would not respond.\n* Fixed an issue where one AMS HT unit could occasionally fail to dry when multiple AMS HT units were connected.\n* Fixed an issue where the AMS motor would continue running after filament purging at the end of a spool.\n* Fixed an issue where the material setting would incorrectly switch to ASA after enabling PLA drying.\n* Fixed an issue where stop commands initiated from Bambu Handy during filament loading or unloading would not take effect.\n* Fixed an issue where retraction was skipped before filament cutting when using Generic PETG profiles.\n* It is recommended to update the AMS to version [IP_REDACTED], which resolves the following issues:\n   - Fixed the issue where the pre-loading action would occasionally keep running continuously.\n   - Fixed the issue where configuring settings or reset filament information would occasionally fail.\n   - Fixed the issue where the red light would occasionally fail to flash after resetting AMS.","downloadUrl":"[URL_REDACTED]"},"amsUnits":[{"amsIndex":0,"amsDeviceId":"00600A411506566","currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":false,"releaseStatus":"testing","humidityLevel":null,"temperatureCelsius":null}],"latestTask":{"externalTaskId":818241069,"taskAlias":"PT-A1-P1S-30C55E2D","designTitle":"","startTimeUtc":"2026-03-18T14:28:24+00:00","endTimeUtc":"2026-03-18T14:33:12+00:00","failedType":0},"latestMessage":{"externalMessageId":1483147503,"externalTaskId":818241069,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot.","createTimeUtc":"2026-03-18T17:23:15+00:00"}}
+
+1.3 OLD - Printer Firmware by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/firmware
+OUTPUT
+{"currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":true,"releaseStatus":"release","description":"# Version [IP_REDACTED]\n## New Features:\n* Added support for Traditional Chinese.\n* Added an on/off toggle for the rotating spool during AMS 2 Pro/AMS HT drying.\n* Added an “EXT” external spool indicator to the loading and unloading interface.\n\n## Feature Optimizations: \n* Security updates.\n* Fixed an occasional AMS communication issue.\n* Fixed an issue where print jobs could be sent successfully in LAN mode, but the printer would not respond.\n* Fixed an issue where one AMS HT unit could occasionally fail to dry when multiple AMS HT units were connected.\n* Fixed an issue where the AMS motor would continue running after filament purging at the end of a spool.\n* Fixed an issue where the material setting would incorrectly switch to ASA after enabling PLA drying.\n* Fixed an issue where stop commands initiated from Bambu Handy during filament loading or unloading would not take effect.\n* Fixed an issue where retraction was skipped before filament cutting when using Generic PETG profiles.\n* It is recommended to update the AMS to version [IP_REDACTED], which resolves the following issues:\n   - Fixed the issue where the pre-loading action would occasionally keep running continuously.\n   - Fixed the issue where configuring settings or reset filament information would occasionally fail.\n   - Fixed the issue where the red light would occasionally fail to flash after resetting AMS.","downloadUrl":"[URL_REDACTED]"}
+
+1.4 NEW - Printer Firmware by DeviceName
+curl "http://localhost:5017/api/printers/by-name/firmware?name=A1-P1S"
+OUTPUT
+{"currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":true,"releaseStatus":"release","description":"# Version [IP_REDACTED]\n## New Features:\n* Added support for Traditional Chinese.\n* Added an on/off toggle for the rotating spool during AMS 2 Pro/AMS HT drying.\n* Added an “EXT” external spool indicator to the loading and unloading interface.\n\n## Feature Optimizations: \n* Security updates.\n* Fixed an occasional AMS communication issue.\n* Fixed an issue where print jobs could be sent successfully in LAN mode, but the printer would not respond.\n* Fixed an issue where one AMS HT unit could occasionally fail to dry when multiple AMS HT units were connected.\n* Fixed an issue where the AMS motor would continue running after filament purging at the end of a spool.\n* Fixed an issue where the material setting would incorrectly switch to ASA after enabling PLA drying.\n* Fixed an issue where stop commands initiated from Bambu Handy during filament loading or unloading would not take effect.\n* Fixed an issue where retraction was skipped before filament cutting when using Generic PETG profiles.\n* It is recommended to update the AMS to version [IP_REDACTED], which resolves the following issues:\n   - Fixed the issue where the pre-loading action would occasionally keep running continuously.\n   - Fixed the issue where configuring settings or reset filament information would occasionally fail.\n   - Fixed the issue where the red light would occasionally fail to flash after resetting AMS.","downloadUrl":"[URL_REDACTED]"}
+
+1.5 OLD - Printer AMS Units by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/ams-units
+OUTPUT
+[{"amsIndex":0,"amsDeviceId":"00600A411506566","currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":false,"releaseStatus":"testing","humidityLevel":null,"temperatureCelsius":null}]
+
+1.6 NEW - Printer AMS Units by DeviceName
+curl "http://localhost:5017/api/printers/by-name/ams-units?name=A1-P1S"
+OUTPUT
+[{"amsIndex":0,"amsDeviceId":"00600A411506566","currentVersion":"[IP_REDACTED]","latestVersion":"[IP_REDACTED]","forceUpdate":false,"releaseStatus":"testing","humidityLevel":null,"temperatureCelsius":null}]
+
+1.7 OLD - Printer Tasks by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/tasks
+OUTPUT
+[{"externalTaskId":818241069,"taskAlias":"PT-A1-P1S-30C55E2D","printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","deviceModel":"P1S","designTitle":"","designTitleTranslated":"","startTimeUtc":"2026-03-18T14:28:24+00:00","endTimeUtc":"2026-03-18T14:33:12+00:00","costTimeSeconds":82622,"lengthMm":10298,"weightGrams":null,"bedType":"eng_plate","mode":"cloud_file","failedType":0,"coverUrl":"[URL_REDACTED]","amsDetails":[{"id":"de8081e8-6169-48e4-9d1e-3daad2b26df4","printerTaskId":"7d3b6868-2421-4eb8-941a-acb473b74693","ams":2,"amsId":0,"slotId":0,"nozzleId":1,"filamentId":"GFB60","filamentType":"ABS","targetFilamentType":"","sourceColor":"F72323FF","targetColor":"F72323FF","weightGrams":255.13}]},{"externalTaskId":816442870,"taskAlias":"PT-A1-P1S-30A9EDF6","printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","deviceModel":"P1S","designTitle":"","designTitleTranslated":"","startTimeUtc":"2026-03-17T17:43:37+00:00","endTimeUtc":"2026-03-18T11:47:15+00:00","costTimeSeconds":62096,"lengthMm":7723,"weightGrams":null,"bedType":"eng_plate","mode":"cloud_file","failedType":0,"coverUrl":"[URL_REDACTED]","amsDetails":[{"id":"22585e1a-4991-4846-867e-9221d9180212","printerTaskId":"fb7db5fb-3d1b-42d1-9fbd-259f959dafd2","ams":2,"amsId":0,"slotId":0,"nozzleId":1,"filamentId":"GFB60","filamentType":"ABS","targetFilamentType":"","sourceColor":"F72323FF","targetColor":"F72323FF","weightGrams":191.35}]}]
+
+1.8 NEW - Printer Tasks by DeviceName
+curl "http://localhost:5017/api/printers/by-name/tasks?name=A1-P1S"
+OUTPUT
+[{"externalTaskId":818241069,"taskAlias":"PT-A1-P1S-30C55E2D","printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","deviceModel":"P1S","designTitle":"","designTitleTranslated":"","startTimeUtc":"2026-03-18T14:28:24+00:00","endTimeUtc":"2026-03-18T14:33:12+00:00","costTimeSeconds":82622,"lengthMm":10298,"weightGrams":null,"bedType":"eng_plate","mode":"cloud_file","failedType":0,"coverUrl":"[URL_REDACTED]","amsDetails":[{"id":"de8081e8-6169-48e4-9d1e-3daad2b26df4","printerTaskId":"7d3b6868-2421-4eb8-941a-acb473b74693","ams":2,"amsId":0,"slotId":0,"nozzleId":1,"filamentId":"GFB60","filamentType":"ABS","targetFilamentType":"","sourceColor":"F72323FF","targetColor":"F72323FF","weightGrams":255.13}]},{"externalTaskId":816442870,"taskAlias":"PT-A1-P1S-30A9EDF6","printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","deviceModel":"P1S","designTitle":"","designTitleTranslated":"","startTimeUtc":"2026-03-17T17:43:37+00:00","endTimeUtc":"2026-03-18T11:47:15+00:00","costTimeSeconds":62096,"lengthMm":7723,"weightGrams":null,"bedType":"eng_plate","mode":"cloud_file","failedType":0,"coverUrl":"[URL_REDACTED]","amsDetails":[{"id":"22585e1a-4991-4846-867e-9221d9180212","printerTaskId":"fb7db5fb-3d1b-42d1-9fbd-259f959dafd2","ams":2,"amsId":0,"slotId":0,"nozzleId":1,"filamentId":"GFB60","filamentType":"ABS","targetFilamentType":"","sourceColor":"F72323FF","targetColor":"F72323FF","weightGrams":191.35}]}]
+
+1.9 OLD - Printer Messages by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/messages
+OUTPUT
+[{"externalMessageId":1483147503,"printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","externalTaskId":818241069,"relatedPrinterTaskId":"7d3b6868-2421-4eb8-941a-acb473b74693","type":6,"isRead":0,"createTimeUtc":"2026-03-18T17:23:15+00:00","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","taskStatus":4,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot.","coverUrl":"[URL_REDACTED]","designId":0,"designTitle":""}]
+
+1.10 NEW - Printer Messages by DeviceName
+curl "http://localhost:5017/api/printers/by-name/messages?name=A1-P1S"
+OUTPUT
+[{"externalMessageId":1483147503,"printerId":"cef0dcd6-8fd1-4968-97d8-72687570b6a3","externalTaskId":818241069,"relatedPrinterTaskId":"7d3b6868-2421-4eb8-941a-acb473b74693","type":6,"isRead":0,"createTimeUtc":"2026-03-18T17:23:15+00:00","deviceId":"01P00A3B2300627","deviceName":"A1-P1S","taskStatus":4,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot.","coverUrl":"[URL_REDACTED]","designId":0,"designTitle":""}]
+
+1.11 OLD - Printer Timeline by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/timeline
+OUTPUT
+[{"source":"message","eventKind":"message","timestampUtc":"2026-03-18T17:23:15+00:00","externalTaskId":818241069,"externalMessageId":1483147503,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot."}]
+
+1.12 NEW - Printer Timeline by DeviceName
+curl "http://localhost:5017/api/printers/by-name/timeline?name=A1-P1S"
+OUTPUT
+[{"source":"message","eventKind":"message","timestampUtc":"2026-03-18T17:23:15+00:00","externalTaskId":818241069,"externalMessageId":1483147503,"title":"Jims Handle_fix_nosp_production","detail":"AMS filament ran out. Please insert a new filament into the same AMS slot."}]
+
+1.13 OLD - Loaded Spools by DeviceId
+curl http://localhost:5017/api/printers/01P00A3B2300627/loaded-spools
+OUTPUT
+No fixed sample output was documented previously.
+
+1.14 NEW - Loaded Spools by DeviceName
+curl "http://localhost:5017/api/printers/by-name/loaded-spools?name=A1-P1S"
+OUTPUT
+No fixed sample output was documented previously.
+
+1.15 OLD - Replacement Suggestions by DeviceId
+curl "http://localhost:5017/api/printers/01P00A3B2300627/replacement-suggestions?lowThresholdPercent=15"
+OUTPUT
+No fixed sample output was documented previously.
+
+1.16 NEW - Replacement Suggestions by DeviceName
+curl "http://localhost:5017/api/printers/by-name/replacement-suggestions?name=A1-P1S&lowThresholdPercent=15"
+OUTPUT
+No fixed sample output was documented previously.
+
+1.17 OLD - Update Loaded Spools by DeviceId
+curl -X PUT http://localhost:5017/api/printers/01P00A3B2300627/loaded-spools \
+  -H "Content-Type: application/json" \
+  -d '{"loadedSpools":[]}'
+OUTPUT
+No fixed sample output was documented previously.
+
+1.18 NEW - Update Loaded Spools by DeviceName
+curl -X PUT "http://localhost:5017/api/printers/by-name/loaded-spools?name=A1-P1S" \
+  -H "Content-Type: application/json" \
+  -d '{"loadedSpools":[]}'
+OUTPUT
+No fixed sample output was documented previously.
+
+1.19 OLD - Simulation Start / Stop by DeviceId
+curl -X POST http://localhost:5017/api/printers/01P00A3C1900861/simulate/start \
+  -H "Content-Type: application/json" \
+  -d '{
+    "designTitle": "Hydraulic Valve Cap",
+    "simulatedDurationSeconds": 180
+  }'
+
+curl -X POST http://localhost:5017/api/printers/01P00A3C1900861/simulate/stop
+OUTPUT
+Runtime-specific. No fixed sample output was documented previously.
+
+1.20 NEW - Simulation Start / Stop by DeviceName
+curl -X POST "http://localhost:5017/api/printers/by-name/simulate/start?name=B8-P1S" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "designTitle": "Hydraulic Valve Cap",
+    "simulatedDurationSeconds": 180
+  }'
+
+curl -X POST "http://localhost:5017/api/printers/by-name/simulate/stop?name=B8-P1S"
+OUTPUT
+Runtime-specific. No fixed sample output was documented previously.
+
+1.21 OLD - Telemetry by DeviceId
+curl "http://localhost:5017/api/printers/01P00A3B2300627/telemetry?minutes=30"
+curl -N http://localhost:5017/api/printers/01P00A3B2300627/telemetry/stream
+OUTPUT
+Runtime-specific. No fixed sample output was documented previously.
+
+1.22 NEW - Telemetry by DeviceName
+curl "http://localhost:5017/api/printers/by-name/telemetry?name=A1-P1S&minutes=30"
+curl -N "http://localhost:5017/api/printers/by-name/telemetry/stream?name=A1-P1S"
+OUTPUT
+Runtime-specific. No fixed sample output was documented previously.
+
+==================================================
+2. TASK ALIAS ROUTES FIXED TODAY
+==================================================
+
+Sample pair used below:
+- externalTaskId: 1774131586651
+- taskAlias: PT-B1-P1S-19D127BA65B
+
+2.1 OLD - Task Detail by ExternalTaskId
+curl http://localhost:5017/api/tasks/1774131586651
+OUTPUT
+{"externalTaskId":1774131586651,"taskAlias":"PT-B1-P1S-19D127BA65B","printerId":"ff27704b-dd33-4c7d-b5db-067f8c5600c5","deviceId":"01P00A411800796","deviceName":"B1-P1S","deviceModel":"P1S","designTitle":"Hydraulic Valve Cap","designTitleTranslated":"Cooling Air Duct","startTimeUtc":"2026-03-21T22:19:46.641934+00:00","endTimeUtc":"2026-03-21T22:24:50.294716+00:00","costTimeSeconds":303,"lengthMm":41176,"weightGrams":242.42,"bedType":"High Temp Plate","mode":"Ludicrous","failedType":null,"coverUrl":"https://sim.local/covers/1774131586651.jpg","amsDetails":[{"id":"35c45c0e-3284-4c71-a5ac-a3cb261410aa","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":1,"amsId":1,"slotId":1,"nozzleId":0,"filamentId":"PLA-1-3826","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#FFFFFF","targetColor":"#8A2BE2","weightGrams":36.96},{"id":"1ac4ac85-b7ac-4a73-880c-413717bff733","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":0,"amsId":0,"slotId":2,"nozzleId":0,"filamentId":"PLA-2-3175","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#808080","targetColor":"#8A2BE2","weightGrams":54.61}]}
+
+2.2 NEW - Task Detail by TaskAlias
+curl http://localhost:5017/api/tasks/by-alias/PT-B1-P1S-19D127BA65B
+OUTPUT
+{"externalTaskId":1774131586651,"taskAlias":"PT-B1-P1S-19D127BA65B","printerId":"ff27704b-dd33-4c7d-b5db-067f8c5600c5","deviceId":"01P00A411800796","deviceName":"B1-P1S","deviceModel":"P1S","designTitle":"Hydraulic Valve Cap","designTitleTranslated":"Cooling Air Duct","startTimeUtc":"2026-03-21T22:19:46.641934+00:00","endTimeUtc":"2026-03-21T22:24:50.294716+00:00","costTimeSeconds":303,"lengthMm":41176,"weightGrams":242.42,"bedType":"High Temp Plate","mode":"Ludicrous","failedType":null,"coverUrl":"https://sim.local/covers/1774131586651.jpg","amsDetails":[{"id":"35c45c0e-3284-4c71-a5ac-a3cb261410aa","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":1,"amsId":1,"slotId":1,"nozzleId":0,"filamentId":"PLA-1-3826","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#FFFFFF","targetColor":"#8A2BE2","weightGrams":36.96},{"id":"1ac4ac85-b7ac-4a73-880c-413717bff733","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":0,"amsId":0,"slotId":2,"nozzleId":0,"filamentId":"PLA-2-3175","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#808080","targetColor":"#8A2BE2","weightGrams":54.61}]}
+
+2.3 OLD - Task AMS Details by ExternalTaskId
+curl http://localhost:5017/api/task-ams-details/by-task/1774131586651
+OUTPUT
+[{"id":"1ac4ac85-b7ac-4a73-880c-413717bff733","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":0,"amsId":0,"slotId":2,"nozzleId":0,"filamentId":"PLA-2-3175","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#808080","targetColor":"#8A2BE2","weightGrams":54.61},{"id":"35c45c0e-3284-4c71-a5ac-a3cb261410aa","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":1,"amsId":1,"slotId":1,"nozzleId":0,"filamentId":"PLA-1-3826","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#FFFFFF","targetColor":"#8A2BE2","weightGrams":36.96}]
+
+2.4 NEW - Task AMS Details by TaskAlias
+curl http://localhost:5017/api/task-ams-details/by-task-alias/PT-B1-P1S-19D127BA65B
+OUTPUT
+[{"id":"1ac4ac85-b7ac-4a73-880c-413717bff733","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":0,"amsId":0,"slotId":2,"nozzleId":0,"filamentId":"PLA-2-3175","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#808080","targetColor":"#8A2BE2","weightGrams":54.61},{"id":"35c45c0e-3284-4c71-a5ac-a3cb261410aa","printerTaskId":"8cd626a5-7c20-4255-bb98-70f87bf34054","ams":1,"amsId":1,"slotId":1,"nozzleId":0,"filamentId":"PLA-1-3826","filamentType":"PLA","targetFilamentType":"PLA","sourceColor":"#FFFFFF","targetColor":"#8A2BE2","weightGrams":36.96}]
+
+2.5 OLD - Task Summary by ExternalTaskId
+curl http://localhost:5017/api/tasks/1774131586651/summary
+OUTPUT
+{"externalTaskId":1774131586651,"taskAlias":"PT-B1-P1S-19D127BA65B","deviceId":"01P00A411800796","designTitle":"Hydraulic Valve Cap","statusText":"SUCCESS","startTimeUtc":"2026-03-21T22:19:46.641934+00:00","endTimeUtc":"2026-03-21T22:24:50.294716+00:00","hasTelemetry":true,"latestProgressPercent":100,"latestCurrentLayer":343,"latestTotalLayers":343,"avgNozzleTempC":214.89,"avgBedTempC":60.00,"avgChamberTempC":34.51,"latestFilamentRemainingGrams":0.91,"latestPowerWatts":147.31,"latestVibrationScore":0.152,"message":"Task telemetry summary generated successfully."}
+
+2.6 NEW - Task Summary by TaskAlias
+curl http://localhost:5017/api/tasks/by-alias/PT-B1-P1S-19D127BA65B/summary
+OUTPUT
+{"externalTaskId":1774131586651,"taskAlias":"PT-B1-P1S-19D127BA65B","deviceId":"01P00A411800796","designTitle":"Hydraulic Valve Cap","statusText":"SUCCESS","startTimeUtc":"2026-03-21T22:19:46.641934+00:00","endTimeUtc":"2026-03-21T22:24:50.294716+00:00","hasTelemetry":true,"latestProgressPercent":100,"latestCurrentLayer":343,"latestTotalLayers":343,"avgNozzleTempC":214.89,"avgBedTempC":60.00,"avgChamberTempC":34.51,"latestFilamentRemainingGrams":0.91,"latestPowerWatts":147.31,"latestVibrationScore":0.152,"message":"Task telemetry summary generated successfully."}
+
+2.7 Discovery Note
+The normal discovery responses now expose `taskAlias` too.
+
+Examples:
+- GET /api/tasks
+- GET /api/printers/{deviceId}/tasks
+- latestTask inside printer detail

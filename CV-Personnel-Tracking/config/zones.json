@@ -1,0 +1,40 @@
+{
+  "zones": [
+    {
+      "zone_id": "Zone_TopLeft",
+      "type": "rack_slot",
+      "shape": "rect",
+      "x1": 40,
+      "y1": 80,
+      "x2": 630,
+      "y2": 380
+    },
+    {
+      "zone_id": "Zone_TopRight",
+      "type": "rack_slot",
+      "shape": "rect",
+      "x1": 650,
+      "y1": 80,
+      "x2": 1240,
+      "y2": 380
+    },
+    {
+      "zone_id": "Zone_BottomLeft",
+      "type": "warning_zone",
+      "shape": "rect",
+      "x1": 40,
+      "y1": 400,
+      "x2": 630,
+      "y2": 680
+    },
+    {
+      "zone_id": "Zone_BottomRight",
+      "type": "printer_mount",
+      "shape": "rect",
+      "x1": 650,
+      "y1": 400,
+      "x2": 1240,
+      "y2": 680
+    }
+  ]
+}
