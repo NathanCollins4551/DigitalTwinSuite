@@ -39,20 +39,43 @@ git clone https://github.com/NathanCollins4551/DigitalTwinSuite.git
 cd DigitalTwinSuite
 ```
 
-### 2. Run with the Launcher
+### 2. Run with the Launcher (Recommended)
 The easiest way to run the suite is using the provided graphical launcher. The launcher manages camera streaming, Docker containers, and service status monitoring.
 
-#### Setup the Launcher Environment:
-```bash
-python -m venv .launcher_env
-.launcher_env\Scripts\activate
-pip install -r requirements_launcher.txt
-```
+#### Quick Start (Windows):
+Simply run the `start.bat` script located in the root directory. 
+1. Double-click `start.bat` or run it from the terminal:
+   ```cmd
+   start.bat
+   ```
 
-#### Run the Launcher:
-```bash
-python launcher.py
-```
+**Do I need to create a virtual environment?**
+No, you do **not** need to manually create or manage a virtual environment if you use the `start.bat` script. The script handles everything automatically, including:
+- Creating the `.launcher_env` virtual environment on its first run.
+- Installing and updating dependencies from `requirements_launcher.txt`.
+- Activating the environment before launching the UI.
+
+#### Manual Setup (Advanced or Non-Windows):
+If you prefer to set up the environment manually or are on a non-Windows platform:
+
+1. **Setup the Launcher Environment:**
+   ```bash
+   python -m venv .launcher_env
+   # Windows:
+   .launcher_env\Scripts\activate
+   # Linux/macOS:
+   source .launcher_env/bin/activate
+   ```
+
+2. **Install Requirements:**
+   ```bash
+   pip install -r requirements_launcher.txt
+   ```
+
+3. **Run the Launcher:**
+   ```bash
+   python launcher.py
+   ```
 
 Within the launcher UI, you can select your camera sources, start/stop individual services, and view live computer vision feeds.
 
