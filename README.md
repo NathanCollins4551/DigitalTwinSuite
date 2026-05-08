@@ -1,76 +1,76 @@
 # Digital Twin Suite
 
-Welcome to the **Digital Twin Suite**, a comprehensive system for real-time monitoring and management of makerspace environments. This suite integrates computer vision, a robust backend, and an interactive frontend dashboard.
+The Digital Twin Suite is an integrated system designed for real-time monitoring and management of makerspace environments. It combines computer vision tracking, a robust .NET backend, and an interactive web dashboard to provide a comprehensive view of equipment status, material inventory, and personnel activity.
 
-## 🚀 Overview
+## System Architecture
 
-The suite consists of several core components:
+The suite consists of four primary components:
 
-### 1. [Backend](./backend)
-A .NET-based API that serves as the central hub for data management, printer status tracking, and message handling.
-- **Technology:** .NET Core, C#
-- **Key Features:** RESTful API, SSE (Server-Sent Events) for real-time updates.
+### 1. Backend Service
+A .NET Core API that acts as the central data hub. It manages equipment status, processes tracking events, and provides real-time updates via Server-Sent Events (SSE).
 
-### 2. [Frontend Dashboard](./frontend)
-A modern web application to visualize makerspace data, printer statuses, and computer vision alerts.
-- **Technology:** Node.js, Express, JavaScript, Unity Integration.
-- **Key Features:** Real-time dashboards, Unity 3D visualization.
+### 2. Frontend Dashboard
+A Node.js and Express-based web application. It visualizes real-time data from the backend and integrates Unity 3D components for spatial visualization of the makerspace.
 
-### 3. [CV Inventory Tracking](./CV-Inventory-Tracking)
-Computer vision system focused on tracking materials (e.g., filament spools) and equipment.
-- **Technology:** Python, YOLOv8, OpenCV.
-- **Key Features:** Object detection, QR code scanning, inventory zone management.
+### 3. CV Inventory Tracking
+A Python-based computer vision service utilizing YOLOv8 and OpenCV. It is responsible for tracking material inventory (such as filament spools) and equipment within defined zones.
 
-### 4. [CV Personnel Tracking](./CV-Personnel-Tracking)
-Computer vision system for monitoring personnel activity and safety within the makerspace.
-- **Technology:** Python, YOLOv8, OpenCV.
-- **Key Features:** People detection, activity monitoring.
+### 4. CV Personnel Tracking
+A Python-based computer vision service focused on monitoring personnel movement and safety within the environment.
 
----
+## Prerequisites
 
-## 🛠️ Getting Started
+To run the full suite, the following software must be installed on the host machine:
 
-### Prerequisites
-- [Docker & Docker Compose](https://www.docker.com/products/docker-desktop/)
-- [Python 3.12+](https://www.python.org/downloads/)
-- [.NET SDK](https://dotnet.microsoft.com/download)
-- [Node.js](https://nodejs.org/)
+*   Docker and Docker Compose
+*   Python 3.12 or higher
+*   .NET 8.0 SDK (for local development)
+*   Node.js (for local development)
+*   Git with Git LFS support
 
-### Quick Start
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/NathanCollins4551/DigitalTwinSuite.git
-   cd DigitalTwinSuite
-   ```
+## Getting Started
 
-2. **Run using the Launcher:**
-   The suite includes a convenient Python-based launcher to start all services.
-   ```bash
-   # Create a virtual environment for the launcher (optional but recommended)
-   python -m venv .launcher_env
-   source .launcher_env/bin/activate  # or .launcher_env\Scripts\activate on Windows
-   pip install -r requirements_launcher.txt
+### 1. Clone the Repository
+This repository uses Git LFS for large model files. Ensure Git LFS is installed before cloning.
 
-   # Start the suite
-   python launcher.py
-   ```
-
-3. **Run using Docker Compose:**
-   Alternatively, you can run the entire suite using Docker:
-   ```bash
-   docker-compose up --build
-   ```
-
----
-
-## 📦 Git LFS
-This project uses **Git LFS** (Large File Storage) to manage large model files (`.pt`) and media assets. Ensure you have Git LFS installed before cloning:
 ```bash
 git lfs install
 git clone https://github.com/NathanCollins4551/DigitalTwinSuite.git
+cd DigitalTwinSuite
 ```
 
----
+### 2. Run with the Launcher
+The easiest way to run the suite is using the provided graphical launcher. The launcher manages camera streaming, Docker containers, and service status monitoring.
 
-## 📄 License
-[Insert License Information Here]
+#### Setup the Launcher Environment:
+```bash
+python -m venv .launcher_env
+.launcher_env\Scripts\activate
+pip install -r requirements_launcher.txt
+```
+
+#### Run the Launcher:
+```bash
+python launcher.py
+```
+
+Within the launcher UI, you can select your camera sources, start/stop individual services, and view live computer vision feeds.
+
+### 3. Run with Docker Compose
+Alternatively, you can start the entire infrastructure and all services using Docker Compose directly:
+
+```bash
+docker compose up -d
+```
+
+## Service Ports
+
+*   Backend API: 5017
+*   Frontend Dashboard: 3000
+*   Inventory CV Feed: 9001
+*   Personnel CV Feed: 9002
+*   RabbitMQ Management: 15672
+*   InfluxDB: 8086
+
+## License
+Refer to the LICENSE file for details on usage and distribution rights.

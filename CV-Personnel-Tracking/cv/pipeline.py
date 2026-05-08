@@ -2,6 +2,7 @@ import json
 import yaml
 import time
 import threading
+import os
 from collections import defaultdict
 
 from cv.detectors.yolo_detector import YOLODetector

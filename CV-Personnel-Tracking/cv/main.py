@@ -53,6 +53,9 @@ def get_live():
         }
 
 def run_flask():
+    import logging
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
     app.run(host='0.0.0.0', port=9002, threaded=True)
 
 def load_yaml(path):
@@ -93,15 +96,15 @@ def main():
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, int(cam_cfg["height"]))
         cap.set(cv2.CAP_PROP_FPS, int(cam_cfg["fps"]))
 
-    pipeline = CVPipeline("config/cv.yaml", "config/zones.json")
-    fps = FPS()
-
     if is_docker:
         print("Running in Docker (Headless). MJPEG stream active on port 9002.")
         threading.Thread(target=run_flask, daemon=True).start()
     else:
         print(f"CV Service running. Video stream at: {base_url}/api/tracking/video_feed")
         print("Press 'q' to quit.")
+
+    pipeline = CVPipeline("config/cv.yaml", "config/zones.json")
+    fps = FPS()
 
     display_counts = {}
     last_count_update = 0.0

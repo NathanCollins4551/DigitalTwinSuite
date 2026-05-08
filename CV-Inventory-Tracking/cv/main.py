@@ -37,6 +37,9 @@ def video_feed():
     return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def run_flask():
+    import logging
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
     app.run(host='0.0.0.0', port=9001, threaded=True)
 
 def load_yaml(path):
@@ -62,16 +65,15 @@ def main():
         cap.set(cv2.CAP_PROP_FOCUS, int(cam_cfg.get("focus", 30)))
         cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
 
-    pipeline = CVPipeline("config/cv.yaml", "config/zones.json")
-    fps = FPS()
-
     is_docker = os.environ.get("DOCKER_ENV") == "true"
-    
     if is_docker:
         print("Running in Docker (Headless). MJPEG stream active on port 9001.")
         threading.Thread(target=run_flask, daemon=True).start()
     else:
         print("CV Service running. Press 'q' to quit.")
+
+    pipeline = CVPipeline("config/cv.yaml", "config/zones.json")
+    fps = FPS()
 
     global _latest_annotated_frame
     while True:
