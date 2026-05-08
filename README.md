@@ -72,5 +72,3 @@ docker compose up -d
 *   RabbitMQ Management: 15672
 *   InfluxDB: 8086
 
-## License
-Refer to the LICENSE file for details on usage and distribution rights.
